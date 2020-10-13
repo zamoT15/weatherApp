@@ -8,8 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
 import com.android.example.weatherapp.databinding.FragmentTitleBinding
-import kotlinx.android.synthetic.main.fragment_title.*
-import kotlinx.android.synthetic.main.fragment_weather.*
+
 
 class TitleFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -19,7 +18,6 @@ class TitleFragment : Fragment() {
 
         binding.checkWeatherButton.setOnClickListener { view : View ->
             view.findNavController().navigate(R.id.action_titleFragment_to_weatherFragment)
-            //binding.titleTextView.text = "new text"
         }
 
 
