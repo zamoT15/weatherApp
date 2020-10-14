@@ -1,20 +1,14 @@
-package com.androdocs.weatherapp
+package com.android.example.weatherapp
 
 import android.os.AsyncTask
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ProgressBar
-import android.widget.RelativeLayout
-import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.databinding.DataBindingUtil.getBinding
-import androidx.databinding.DataBindingUtil.setContentView
 import androidx.fragment.app.Fragment
-import com.android.example.weatherapp.R
 import com.android.example.weatherapp.databinding.FragmentWeatherBinding
+import kotlinx.android.synthetic.main.fragment_title.*
 import org.json.JSONObject
 import java.net.URL
 import java.text.SimpleDateFormat
@@ -23,7 +17,7 @@ import java.util.*
 class WeatherFragment : Fragment() {
 
     lateinit var binding: FragmentWeatherBinding
-    val CITY: String = "delhi,in"
+    lateinit var CITY: String
     val API: String = "fdc584ed4620d4dc652b1eabfeef3e72"
 
     override fun onCreateView(
@@ -34,11 +28,14 @@ class WeatherFragment : Fragment() {
             inflater,
             R.layout.fragment_weather, container, false
         )
-
+        CITY = "London"
+        //CITY = titleTextView.text as String
+        //CITY = titleTextView.text.toString()
         weatherTask().execute()
         return binding.root
 
     }
+
 
 
     inner class weatherTask() : AsyncTask<String, Void, String>() {
@@ -48,11 +45,6 @@ class WeatherFragment : Fragment() {
             binding.loader.visibility = View.VISIBLE
             binding.mainContainer.visibility = View.GONE
             binding.errorText.visibility = View.GONE
-            /*
-            findViewById<ProgressBar>(R.id.loader).visibility = View.VISIBLE
-            findViewById<RelativeLayout>(R.id.mainContainer).visibility = View.GONE
-            findViewById<TextView>(R.id.errorText).visibility = View.GONE
-            */
         }
 
         override fun doInBackground(vararg params: String?): String? {
@@ -110,29 +102,14 @@ class WeatherFragment : Fragment() {
                 binding.wind.text = windSpeed
                 binding.pressure.text = pressure
                 binding.humidity.text = humidity
-                /*findViewById<TextView>(R.id.address).text = address
-                findViewById<TextView>(R.id.updated_at).text =  updatedAtText
-                findViewById<TextView>(R.id.status).text = weatherDescription.capitalize()
-                findViewById<TextView>(R.id.temp).text = temp
-                findViewById<TextView>(R.id.temp_min).text = tempMin
-                findViewById<TextView>(R.id.temp_max).text = tempMax
-                findViewById<TextView>(R.id.sunrise).text = SimpleDateFormat("hh:mm a", Locale.ENGLISH).format(Date(sunrise*1000))
-                findViewById<TextView>(R.id.sunset).text = SimpleDateFormat("hh:mm a", Locale.ENGLISH).format(Date(sunset*1000))
-                findViewById<TextView>(R.id.wind).text = windSpeed
-                findViewById<TextView>(R.id.pressure).text = pressure
-                findViewById<TextView>(R.id.humidity).text = humidity*/
 
                 /* Views populated, Hiding the loader, Showing the main design */
                 binding.loader.visibility = View.GONE
                 binding.mainContainer.visibility = View.VISIBLE
-                /* findViewById<ProgressBar>(R.id.loader).visibility = View.GONE
-                 findViewById<RelativeLayout>(R.id.mainContainer).visibility = View.VISIBLE*/
 
             } catch (e: Exception) {
                 binding.loader.visibility = View.GONE
-                binding.errorText.visibility = View.GONE
-                /*findViewById<ProgressBar>(R.id.loader).visibility = View.GONE
-                findViewById<TextView>(R.id.errorText).visibility = View.VISIBLE*/
+                binding.errorText.visibility = View.VISIBLE
             }
 
         }
