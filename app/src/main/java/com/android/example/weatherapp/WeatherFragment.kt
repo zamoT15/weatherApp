@@ -2,6 +2,7 @@ package com.android.example.weatherapp
 
 import android.os.AsyncTask
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -54,8 +55,10 @@ class WeatherFragment : Fragment() {
                     URL("https://api.openweathermap.org/data/2.5/weather?q=$CITY&units=metric&appid=$API").readText(
                         Charsets.UTF_8
                     )
+                Log.i("WeatherFragment", "try done")
             } catch (e: Exception) {
                 response = null
+                Log.i("WeatherFragment", "exception caught")
             }
             return response
         }
