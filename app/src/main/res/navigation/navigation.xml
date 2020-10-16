@@ -7,13 +7,15 @@
     <fragment
         android:id="@+id/titleFragment"
         android:name="com.android.example.weatherapp.TitleFragment"
-        android:label="TitleFragment">
+        android:label="@string/app_name">
         <action
             android:id="@+id/action_titleFragment_to_weatherFragment"
-            app:destination="@id/weatherFragment" />
+            app:destination="@id/weatherFragment"
+            app:popUpTo="@id/titleFragment"
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/weatherFragment"
         android:name="com.android.example.weatherapp.WeatherFragment"
-        android:label="WeatherFragment" />
+        android:label="@string/app_name" />
 </navigation>
