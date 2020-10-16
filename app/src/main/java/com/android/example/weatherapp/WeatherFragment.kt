@@ -1,7 +1,84 @@
 package com.android.example.weatherapp
 
+import android.os.Build
+import android.os.Bundle
+import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.annotation.RequiresApi
+import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
+import com.android.example.weatherapp.databinding.FragmentWeatherBinding
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import java.lang.Exception
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
+import kotlin.math.roundToInt
+
+lateinit var binding: FragmentWeatherBinding
+val currentDateTime = LocalDateTime.now()
+var City: String = "London"
+fun setCITY(_city: String) {
+    City = _city
+}
+
+class WeatherFragment: Fragment() {
+    @RequiresApi(Build.VERSION_CODES.O)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = DataBindingUtil.inflate(
+            inflater,
+            R.layout.fragment_weather, container, false
+        )
+        val apiService = WeatherApiService()
+
+        GlobalScope.launch(Dispatchers.Main) {
+            try {
+                val weatherResponse = apiService.getWeather(City).await()
+                val updatedAt = currentDateTime.format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL, FormatStyle.MEDIUM))
+                binding.address.text = City
+                binding.temp.text =
+                    ((weatherResponse.main.temp - 273.15).roundToInt()).toString() + "°C"
+                binding.status.text = weatherResponse.weather[0].description.capitalize()
+                binding.wind.text = weatherResponse.wind.speed.toString() + " m/s"
+                binding.updatedAt.text = updatedAt
+                binding.pressure.text = weatherResponse.main.pressure.toString() + " hPa"
+                binding.humidity.text = weatherResponse.main.humidity.toString() + "%"
+            }
+            catch (e: Exception){
+                Log.d("WeatherFragment", e.toString())
+            }
+        }
+        return binding.root
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+package com.android.example.weatherapp
+
 import android.os.AsyncTask
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,10 +91,18 @@ import java.net.URL
 import java.text.SimpleDateFormat
 import java.util.*
 
+
+var City: String = "London"
+fun setCITY(_city: String) {
+    City = _city
+
+}
+
+
 class WeatherFragment : Fragment() {
 
     lateinit var binding: FragmentWeatherBinding
-    lateinit var CITY: String
+
     val API: String = "fdc584ed4620d4dc652b1eabfeef3e72"
 
     override fun onCreateView(
@@ -28,7 +113,7 @@ class WeatherFragment : Fragment() {
             inflater,
             R.layout.fragment_weather, container, false
         )
-        CITY = "London"
+      //  CITY = "London"
         //CITY = titleTextView.text as String
         //CITY = titleTextView.text.toString()
         weatherTask().execute()
@@ -37,11 +122,12 @@ class WeatherFragment : Fragment() {
     }
 
 
-
     inner class weatherTask() : AsyncTask<String, Void, String>() {
         override fun onPreExecute() {
             super.onPreExecute()
-            /* Showing the ProgressBar, Making the main design GONE */
+            */
+/* Showing the ProgressBar, Making the main design GONE *//*
+
             binding.loader.visibility = View.VISIBLE
             binding.mainContainer.visibility = View.GONE
             binding.errorText.visibility = View.GONE
@@ -51,11 +137,12 @@ class WeatherFragment : Fragment() {
             var response: String?
             try {
                 response =
-                    URL("https://api.openweathermap.org/data/2.5/weather?q=$CITY&units=metric&appid=$API").readText(
-                        Charsets.UTF_8
-                    )
+                    URL("https://api.openweathermap.org/data/2.5/weather?q=$City&units=metric&appid=$API").toString()
+                Log.i("WeatherFragment", response)
             } catch (e: Exception) {
                 response = null
+                Log.i("WeatherFragment", "exception caught")
+                Log.i("WeatherFragment", City)
             }
             return response
         }
@@ -63,7 +150,9 @@ class WeatherFragment : Fragment() {
         override fun onPostExecute(result: String?) {
             super.onPostExecute(result)
             try {
-                /* Extracting JSON returns from the API */
+                */
+/* Extracting JSON returns from the API *//*
+
                 val jsonObj = JSONObject(result)
                 val main = jsonObj.getJSONObject("main")
                 val sys = jsonObj.getJSONObject("sys")
@@ -88,7 +177,9 @@ class WeatherFragment : Fragment() {
 
                 val address = jsonObj.getString("name") + ", " + sys.getString("country")
 
-                /* Populating extracted data into our views */
+                */
+/* Populating extracted data into our views *//*
+
                 binding.address.text = address
                 binding.updatedAt.text = updatedAtText
                 binding.status.text = weatherDescription.capitalize()
@@ -103,15 +194,22 @@ class WeatherFragment : Fragment() {
                 binding.pressure.text = pressure
                 binding.humidity.text = humidity
 
-                /* Views populated, Hiding the loader, Showing the main design */
+                */
+/* Views populated, Hiding the loader, Showing the main design *//*
+
                 binding.loader.visibility = View.GONE
                 binding.mainContainer.visibility = View.VISIBLE
+                Log.i("WeatherFragment", "try done2")
 
             } catch (e: Exception) {
                 binding.loader.visibility = View.GONE
                 binding.errorText.visibility = View.VISIBLE
+               // binding.mainContainer.visibility = View.VISIBLE
+                Log.i("WeatherFragment", "exception caught2")
             }
 
         }
     }
 }
+
+*/

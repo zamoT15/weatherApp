@@ -7,12 +7,10 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
 import com.android.example.weatherapp.databinding.FragmentTitleBinding
-import kotlinx.android.synthetic.main.fragment_title.*
 
 
 class TitleFragment : Fragment(), AdapterView.OnItemSelectedListener {
@@ -47,14 +45,7 @@ class TitleFragment : Fragment(), AdapterView.OnItemSelectedListener {
     }
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
         var items:String = parent?.getItemAtPosition(position) as String
-        titleTextView.text = items
-        //items = titleTextView.text.toString()
-        /*when (items) {
-            "New York" -> titleTextView.text = items
-            "Washington" -> items = "2"
-            "London" -> items = "3"
-            else -> items = "Smtng wnt wrung"
-        }*/
-        Toast.makeText(activity, "${titleTextView.text}", Toast.LENGTH_SHORT).show()
+        setCITY(items)
+        //Toast.makeText(activity, items, Toast.LENGTH_SHORT).show()
     }
 }
